@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %} My Blog Data {% endblock %}
+{% block content %}
+<form action='#', method="GET">
+    <p>Name: user</p>
+    <p>Posts: user_posts</p>
+    <p>Blog content: content</p>
+    <h2 class="article-title">{{ post.title }}</h2>
+    <p class="article-content">{{ post.content }}</p>
+
+</form>
+{% endblock %}
