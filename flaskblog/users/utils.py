@@ -5,7 +5,7 @@ from flask import url_for, current_app
 from flask_mail import Message
 from flaskblog import mail
 
-
+#Functionality to resize and save a profile picture 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -19,7 +19,7 @@ def save_picture(form_picture):
 
     return picture_fn
 
-
+#Functionality to automate and send a reset password email
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request',

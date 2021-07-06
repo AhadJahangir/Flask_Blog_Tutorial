@@ -8,6 +8,9 @@ from flaskblog.users.utils import save_picture, send_reset_email
 
 users = Blueprint('users', __name__)
 
+#Allows user to register for an account, credentials stored in database
+#Password is hashed with utf-8 encoding system
+#If user already logged in, user redirected to home page
 
 @users.route("/register", methods=['GET', 'POST'])
 def register():
@@ -23,7 +26,8 @@ def register():
         return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
-
+#Allows user to login to their account
+#If user already logged in, user redirected to home page
 @users.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -39,13 +43,14 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-
+#Allows user to logout of account
 @users.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('main.home'))
 
-
+#Allows user to view/update their account information (username, email, picture)
+#Authenticated by user login to prevent viewing of other accounts
 @users.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
@@ -66,7 +71,7 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-
+#Allows user posts to be found through username url
 @users.route("/user/<string:username>")
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
@@ -76,7 +81,7 @@ def user_posts(username):
         .paginate(page=page, per_page=5)
     return render_template('user_posts.html', posts=posts, user=user)
 
-
+#Enables user password reset functionality
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
@@ -89,7 +94,7 @@ def reset_request():
         return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
-
+#Implements token to timeout a reset password request for account safety
 @users.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:

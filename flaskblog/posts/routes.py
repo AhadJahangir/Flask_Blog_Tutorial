@@ -7,7 +7,8 @@ from flaskblog.posts.forms import PostForm
 
 posts = Blueprint('posts', __name__)
 
-
+#Sets route for a new post and logic to commit post to database
+#Sends user to home page url after successful post
 @posts.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -21,13 +22,13 @@ def new_post():
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
 
-
+#Allows user to view posts by the post id in url
 @posts.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
-
+#Allows user to update posts if user is author of the post
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
@@ -47,7 +48,7 @@ def update_post(post_id):
     return render_template('create_post.html', title='Update Post',
                            form=form, legend='Update Post')
 
-
+#Allows user to delete posts if user is author of the post 
 @posts.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):

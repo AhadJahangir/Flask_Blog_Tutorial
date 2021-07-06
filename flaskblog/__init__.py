@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flaskblog.config import Config
 
+#Sets database, password encryption, and login manager
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -13,6 +14,7 @@ login_manager.login_message_category = 'info'
 
 mail = Mail()
 
+#Initializes flask application
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
